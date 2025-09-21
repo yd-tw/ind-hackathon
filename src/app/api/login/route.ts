@@ -6,7 +6,6 @@ const PASS = process.env.TRON_PASS || "";
 const UA = process.env.TRON_UA || "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
 
 // 幾個 helper regex（與你的 Python PATTERN 對齊）
-const PATTERN_LT_ANY = /(LT[^"'\s<>]+)/i;
 const PATTERN_HIDDEN = (name: string) =>
   new RegExp(`name=["']${name}["']\\s+value=["']([^"']+)["']`, "i");
 const PATTERN_FORM_ACTION = /<form[^>]+action=["']([^"']+)["']/i;
@@ -19,16 +18,8 @@ function splitSetCookie(raw: string | null): string[] {
   return parts.map((p) => p.split(";")[0].trim()).filter(Boolean);
 }
 
-function extractLt(html: string): string | null {
-  // 先試 name="lt" 的 hidden input，若沒有再 fallback 到 LTxxxx pattern（與 Python 一致）
-  const m1 = PATTERN_HIDDEN("lt").exec(html);
-  if (m1) return m1[1];
-  const m2 = PATTERN_LT_ANY.exec(html);
-  return m2 ? m2[1] : null;
-}
-
-function extractExecution(html: string): string | null {
-  const m = PATTERN_HIDDEN("execution").exec(html);
+function extractHidden(html: string, name: string): string | null {
+  const m = PATTERN_HIDDEN(name).exec(html);
   return m ? m[1] : null;
 }
 
@@ -60,14 +51,10 @@ export async function GET() {
     const loginPageResp = await fetch(`${TRON}/login?next=/user/index`, {
       headers: { "User-Agent": UA },
     });
-    const loginHtml = await loginPageResp.text();
-    // console log server-side 可看到詳細內容（不要把密碼 / cookie 回傳到前端）
-    console.log("Login page snippet:", loginHtml.slice(0, 800));
-
-    // 2) 解析 lt / execution / form action（採用 Python 同樣的 LT fallback）
-    const lt = extractLt(loginHtml);
-    const execution = extractExecution(loginHtml) || "e1s1";
-    const action = extractFormAction(loginHtml, loginPageResp.url);
+    const html = await loginPageResp.text();
+    const action = extractFormAction(html, loginPageResp.url);
+    const lt = extractHidden(html, "lt");
+    const execution = extractHidden(html, "execution") || "e1s1";
 
     if (!lt) {
       console.error("Cannot find LT token in login page");
