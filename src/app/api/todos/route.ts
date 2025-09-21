@@ -1,17 +1,21 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const sessionCookie = req.cookies.get("session")?.value;
     const res = await fetch(
       "https://tronclass.ntou.edu.tw/api/todos?no-intercept=true",
       {
         method: "GET",
         headers: {
           Accept: "application/json, text/plain, */*",
-          "X-SESSION-ID": process.env.SESSION!,
+          ...(sessionCookie && { "X-SESSION-ID": sessionCookie }),
+          // "X-SESSION-ID": process.env.SESSION!,
         },
       },
     );
+
+    console.log("API 回應狀態:", res);
 
     if (!res.ok) {
       throw new Error(`API 回應錯誤: ${res.status}`);

@@ -25,15 +25,12 @@ export async function POST(req: Request) {
   try {
     const { username, password } = await req.json();
     if (!username || !password) {
-      return NextResponse.json(
-        { error: "缺少帳號或密碼" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "缺少帳號或密碼" }, { status: 400 });
     }
 
     // 1) 抓登入頁面
     const loginPageResp = await fetch(
-      "https://tronclass.ntou.edu.tw/login?next=/user/index"
+      "https://tronclass.ntou.edu.tw/login?next=/user/index",
     );
     const html = await loginPageResp.text();
     const action = extractFormAction(html, loginPageResp.url);
@@ -91,13 +88,16 @@ export async function POST(req: Request) {
     // 6) 回傳時把 Cookie 設在 header
     const res = NextResponse.json({ success: true });
     for (const c of cookies) {
-      res.headers.append("Set-Cookie", c + "; Path=/; HttpOnly; Secure; SameSite=Lax");
+      res.headers.append(
+        "Set-Cookie",
+        c + "; Path=/; HttpOnly; Secure; SameSite=Lax",
+      );
     }
     return res;
   } catch (err: any) {
     return NextResponse.json(
       { error: err.message, stack: err.stack },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
