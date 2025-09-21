@@ -8,9 +8,9 @@ export async function GET() {
         method: "GET",
         headers: {
           Accept: "application/json, text/plain, */*",
-          "X-SESSION-ID": process.env.Session!,
+          "X-SESSION-ID": process.env.SESSION!,
         },
-      }
+      },
     );
 
     if (!res.ok) {
