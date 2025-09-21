@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 // 幾個 helper regex（與你的 Python PATTERN 對齊）
 const PATTERN_HIDDEN = (name: string) =>
   new RegExp(`name=["']${name}["']\\s+value=["']([^"']+)["']`, "i");
-const PATTERN_FORM_ACTION = /<form[^>]+action=["']([^"']+)["']/i;
 
 // 把 raw set-cookie 字串分成單個 cookie name=value
 function splitSetCookie(raw: string | null): string[] {
@@ -19,16 +18,10 @@ function extractHidden(html: string, name: string): string | null {
 }
 
 function extractFormAction(html: string, baseUrl: string): string {
+  const PATTERN_FORM_ACTION = /<form[^>]+action=["']([^"']+)["']/i;
   const m = PATTERN_FORM_ACTION.exec(html);
   if (!m) return baseUrl;
-  const action = m[1];
-  try {
-    return action.startsWith("http")
-      ? action
-      : new URL(action, baseUrl).toString();
-  } catch {
-    return baseUrl;
-  }
+  return new URL(m[1], baseUrl).toString();
 }
 
 function parseCookies(cookies: string[]): Record<string, string> {
@@ -42,23 +35,14 @@ function parseCookies(cookies: string[]): Record<string, string> {
 
 export async function GET() {
   try {
-    // 1) GET login page
     const loginPageResp = await fetch(
-      `https://tronclass.ntou.edu.tw/login?next=/user/index`,
+      "https://tronclass.ntou.edu.tw/login?next=/user/index",
     );
     const html = await loginPageResp.text();
     const action = extractFormAction(html, loginPageResp.url);
-    const lt = extractHidden(html, "lt");
+    const lt = extractHidden(html, "lt") || "";
     const execution = extractHidden(html, "execution") || "e1s1";
 
-    if (!lt) {
-      return NextResponse.json(
-        { error: "Cannot find LT token" },
-        { status: 500 },
-      );
-    }
-
-    // 3) POST 表單
     const form = new URLSearchParams();
     form.set("username", process.env.TRON_USER!);
     form.set("password", process.env.TRON_PASS!);
@@ -74,7 +58,7 @@ export async function GET() {
         Referer: loginPageResp.url,
       },
       body: form.toString(),
-      redirect: "manual", // 先不要自動跟隨，方便讀 set-cookie
+      redirect: "manual",
     });
 
     // 4) 取出 set-cookie（可能包含多個，需切好）
@@ -102,6 +86,8 @@ export async function GET() {
         });
         const moreRaw = followResp.headers.get("set-cookie") || "";
         if (moreRaw) {
+          // 這裡確認必然會被執行
+          console.log("Following redirect, got more cookies.");
           const more = splitSetCookie(moreRaw);
           cookies = Array.from(new Set([...cookies, ...more]));
         }
