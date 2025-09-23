@@ -1,95 +1,51 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 
-export default function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
-    setSuccess(false);
-
-    try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "登入失敗");
-      }
-
-      setSuccess(true);
-      setMessage("✅ 登入成功！");
-    } catch (err: any) {
-      setMessage(`❌ ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+export default function Page() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-md"
-      >
-        <h1 className="mb-6 text-center text-2xl font-bold">Tronclass 登入</h1>
-
-        <div className="mb-4">
-          <label className="mb-1 block text-sm font-medium">帳號</label>
-          <input
-            type="text"
-            className="w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+        <div className="fixed top-0 left-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pt-8 pb-6 backdrop-blur-2xl lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit">
+          <h1 className="text-2xl font-bold">校園儀表板</h1>
         </div>
+      </div>
 
-        <div className="mb-4">
-          <label className="mb-1 block text-sm font-medium">密碼</label>
-          <input
-            type="password"
-            className="w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-md bg-blue-600 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400"
-        >
-          {loading ? "登入中..." : "登入"}
-        </button>
-
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
-        )}
-
-        {success && (
-          <div className="mt-6 text-center">
-            <Link
-              href="/todos"
-              className="inline-block rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-            >
-              前往 Todos 頁面
-            </Link>
-          </div>
-        )}
-      </form>
-    </div>
+      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-3 lg:text-left">
+        {card.map((item) => (
+          <Link
+            key={item.title}
+            href={item.href}
+            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          >
+            <h2 className={`mb-3 text-2xl font-semibold`}>
+              {item.title}{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
+              </span>
+            </h2>
+            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+              {item.description}
+            </p>
+          </Link>
+        ))}
+      </div>
+    </main>
   );
 }
+
+const card = [
+  {
+    title: "點名系統",
+    description: "Login to your account",
+    href: "/rollcalls",
+  },
+  {
+    title: "代辦事項",
+    description: "Create a new account",
+    href: "/todos",
+  },
+  {
+    title: "課程地圖",
+    description: "Reset your password",
+    href: "/forgot-password",
+  },
+];
