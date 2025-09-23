@@ -21,7 +21,7 @@ export default function TodosPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-md">
-        <h1 className="mb-6 text-center text-2xl font-bold">Todos</h1>
+        <h1 className="mb-6 text-center text-2xl font-bold">待辦事項</h1>
 
         {error && (
           <p className="mt-4 text-center text-sm text-red-600">

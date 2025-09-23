@@ -4,20 +4,31 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 const navigation = [
-  { name: "土地排行榜", href: "/leaderboard/block" },
-  { name: "聯盟排行榜", href: "/leaderboard/team" },
+  { name: "點名系統", href: "/rollcalls" },
+  { name: "代辦事項", href: "/todos" },
+  { name: "課程地圖", href: "/courses" },
   {
-    name: "Discord",
-    href: "https://discord.gg/XT2PyGtPyN",
+    name: "海岸資訊",
+    href: "http://140.121.102.170:8080",
     target: "_blank",
   },
 ];
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const { data: session } = useSession();
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const res = await fetch("/api/user");
+      if (res.ok) {
+        return res.json();
+      }
+      return null;
+    },
+  });
 
   return (
     <nav className="bg-background/95 sticky top-0 z-50 mx-auto w-full border-b border-gray-300 backdrop-blur dark:border-gray-700">
@@ -66,30 +77,30 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-          {/* {session ? (
+          {user ? (
             <div className="flex items-center space-x-4">
               <Link href={`/dashboard`} passHref>
                 <div className="flex cursor-pointer items-center space-x-4">
                   <Image
                     className="rounded-full"
-                    src={session?.user?.image || "/default-avatar.png"}
-                    alt={session?.user?.name || "User Avatar"}
+                    src={user?.image || "/default-avatar.png"}
+                    alt={user?.name || "User Avatar"}
                     width={32}
                     height={32}
                   />
                   <span className="hidden font-medium text-gray-900 md:block">
-                    {session?.user?.name}
+                    {user.userNo} {user.name}
                   </span>
                 </div>
               </Link>
             </div>
           ) : (
-            <Link href="/login">
+            <Link href="/login" className="flex items-center">
               <button className="text-sm font-semibold text-gray-900 hover:text-gray-700">
                 登入
               </button>
             </Link>
-          )} */}
+          )}
         </div>
       </div>
 

@@ -46,6 +46,6 @@ const card = [
   {
     title: "課程地圖",
     description: "Reset your password",
-    href: "/forgot-password",
+    href: "/courses",
   },
 ];
