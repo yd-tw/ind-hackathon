@@ -3,17 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const sessionCookie = req.cookies.get("session")?.value;
-    const res = await fetch(
-      "https://tronclass.ntou.edu.tw/api/todos?no-intercept=true",
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          ...(sessionCookie && { "X-SESSION-ID": sessionCookie }),
-          // "X-SESSION-ID": process.env.SESSION!,
-        },
+    console.log("Session Cookie:", sessionCookie);
+    const res = await fetch("https://tronclass.ntou.edu.tw/api/todos", {
+      method: "GET",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "X-SESSION-ID": sessionCookie || "",
       },
-    );
+    });
 
     console.log("API 回應狀態:", res);
 
