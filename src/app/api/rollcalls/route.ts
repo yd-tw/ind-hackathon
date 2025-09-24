@@ -1,14 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const sessionCookie = req.cookies.get("session")?.value;
     const res = await fetch(
       "https://tronclass.ntou.edu.tw/api/radar/rollcalls",
       {
         method: "GET",
         headers: {
           Accept: "application/json, text/plain, */*",
-          "X-SESSION-ID": process.env.SESSION!,
+          "X-SESSION-ID": sessionCookie || "",
         },
       },
     );

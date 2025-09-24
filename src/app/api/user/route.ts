@@ -58,9 +58,6 @@ export async function GET(req: NextRequest) {
       .replace(/,\s*([}\]])/g, "$1") // 移除尾逗號
       .replace(/(\w+)\s*:/g, '"$1":'); // key: -> "key":
 
-    // Debug log: 讓你檢查最後處理結果
-    console.log("DEBUG >>>", jsonStr.slice(-200));
-
     const globalData = JSON.parse(jsonStr);
 
     return NextResponse.json(globalData.user);
