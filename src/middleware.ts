@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export function middleware(req: NextRequest) {
   const session = req.cookies.get("session")?.value;
   const { pathname } = req.nextUrl;
-  const publicRoutes = ["/login"];
+  const publicRoutes = ["/", "/login"];
 
   if (!publicRoutes.includes(pathname)) {
     if (!session) {

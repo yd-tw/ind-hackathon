@@ -79,7 +79,7 @@ export default function Navbar() {
           </div>
           {user ? (
             <div className="flex items-center space-x-4">
-              <Link href={`/dashboard`} passHref>
+              <Link href={`/user`}>
                 <div className="flex cursor-pointer items-center space-x-4">
                   <Image
                     className="rounded-full"
