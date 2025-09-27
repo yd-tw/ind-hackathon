@@ -4,6 +4,7 @@ import db from "@/lib/firebase";
 import { doc, updateDoc, arrayUnion, setDoc, getDoc } from "firebase/firestore";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar, Save, CheckCircle, XCircle, Lightbulb } from "lucide-react";
+import Link from "next/link";
 
 export default function CourseConfig() {
   const [input, setInput] = useState("");
@@ -166,6 +167,12 @@ export default function CourseConfig() {
             <div className="flex items-start gap-2">
               <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-400"></div>
               <span>課程時間格式建議使用如 "102/103" 的格式</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-400"></div>
+              <Link href={"https://docs.codecat.tw/ntou"} className="text-blue-500" target="_blank">
+                你可以使用自動腳本獲得配置文件( PDF課表轉 json )
+              </Link>
             </div>
           </div>
         </div>
