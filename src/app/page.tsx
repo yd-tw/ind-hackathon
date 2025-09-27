@@ -36,30 +36,24 @@ function ChartCard() {
 export default function Dashboard() {
   return (
     <main className="min-h-screen bg-gray-50 p-6">
-      <h1 className="mb-6 text-2xl font-bold text-gray-800">儀表板首頁</h1>
-
-      <div
-        className="grid auto-rows-min grid-cols-1 gap-6 md:grid-cols-6"
-        style={{ gridAutoRows: "minmax(100px, auto)" }}
-      >
-        {/* 你可以自由設定卡片的大小和位置 */}
+      <div className="grid auto-rows-min grid-cols-1 gap-6 md:grid-cols-6 lg:grid-cols-8 item-center justify-center">
         <div className="md:col-span-2">
           <RollCalls />
         </div>
         <div className="md:col-span-4">
           <Todos />
         </div>
+        <div className="md:col-span-2">
+          <WeatherCard />
+        </div>
+        <div className="md:col-span-6">
+          <Curriculum />
+        </div>
         <div className="md:col-span-3">
           <Courses />
         </div>
         <div className="md:col-span-3">
-          <WeatherCard />
-        </div>
-        <div className="md:col-span-3">
           <BusStopQuery />
-        </div>
-        <div className="md:col-span-3">
-          <Curriculum />
         </div>
       </div>
     </main>

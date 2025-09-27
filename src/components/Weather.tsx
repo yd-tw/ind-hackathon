@@ -40,7 +40,7 @@ export default function WeatherCard() {
   }, []);
 
   return (
-    <div className="mx-auto mt-6 max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+    <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-6">
       <h2 className="mb-4 text-xl font-bold text-gray-800">基隆天氣狀況</h2>
       {loading && <p className="text-gray-500">載入中...</p>}
       {weather && (

@@ -17,7 +17,7 @@ export default function RollCalls() {
   });
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6">
+    <div className="flex w-full max-w-md flex-col rounded-2xl border border-gray-200 bg-white p-6">
       <h1 className="mb-6 text-center text-2xl font-bold">點名系統</h1>
 
       {/* 無資料狀態 */}

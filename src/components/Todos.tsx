@@ -17,7 +17,7 @@ export default function Todos() {
   const todos = data?.todo_list ?? [];
 
   return (
-    <div className="w-full max-w-3xl rounded-xl border border-slate-200 bg-white p-6">
+    <div className="flex w-full flex-col rounded-xl border border-slate-200 bg-white p-6">
       <h1 className="mb-6 text-center text-2xl font-bold">待辦事項</h1>
 
       {isLoading && <div className="text-center text-slate-500">載入中...</div>}
