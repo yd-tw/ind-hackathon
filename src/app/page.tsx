@@ -4,7 +4,7 @@ import Todos from "@/components/Todos";
 import Courses from "@/components/Courses";
 import WeatherCard from "@/components/Weather";
 import BusStopQuery from "@/components/Bus";
-import Curriculum from "@/components/Curriculum"
+import Curriculum from "@/components/Curriculum";
 
 // ====== 卡片佔位組件 ======
 interface StatsCardProps {

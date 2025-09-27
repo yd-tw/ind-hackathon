@@ -64,7 +64,7 @@ export default function CourseTable() {
 
   return (
     <div className="overflow-x-auto">
-      <table className="border-collapse border border-gray-400 w-full text-center">
+      <table className="w-full border-collapse border border-gray-400 text-center">
         <thead>
           <tr>
             <th className="border border-gray-400 p-2">節次</th>

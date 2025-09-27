@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import db from "@/lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, setDoc, getDoc } from "firebase/firestore";
 import { useQuery } from "@tanstack/react-query";
 
 export default function CourseConfig() {
@@ -27,19 +27,30 @@ export default function CourseConfig() {
         throw new Error("格式錯誤：必須是課程陣列");
       }
 
-      // 驗證每個物件
       parsed.forEach((course, idx) => {
         if (!course.course_name || !course.course_time) {
           throw new Error(`第 ${idx + 1} 筆缺少必要欄位`);
         }
       });
 
-      // 存到 Firebase
       const ref = doc(db, "users", user.userNo);
 
-      await setDoc(ref, { courses: parsed }, { merge: true });
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        // 建立文件（可以給初始結構）
+        await setDoc(ref, { courses: [] });
+      }
 
-      setMessage("✅ 課表已成功儲存！");
+      // 一次插入多筆：用 Promise.all 執行多個 updateDoc
+      await Promise.all(
+        parsed.map((course) =>
+          updateDoc(ref, {
+            courses: arrayUnion(course),
+          }),
+        ),
+      );
+
+      setMessage("✅ 課表已成功新增！");
     } catch (err: any) {
       console.error(err);
       setMessage(`❌ 錯誤：${err.message}`);
@@ -47,18 +58,18 @@ export default function CourseConfig() {
   };
 
   return (
-    <div className="p-4 max-w-xl mx-auto">
-      <h2 className="text-lg font-bold mb-2">課表設定</h2>
+    <div className="mx-auto max-w-xl p-4">
+      <h2 className="mb-2 text-lg font-bold">課表設定</h2>
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
         rows={10}
-        className="w-full border rounded p-2 font-mono text-sm"
+        className="w-full rounded border p-2 font-mono text-sm"
         placeholder='貼上課表 JSON，例如：[{"course_name":"計算機概論","course_time":"102/103"}]'
       />
       <button
         onClick={handleSave}
-        className="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="mt-3 rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
       >
         儲存
       </button>
