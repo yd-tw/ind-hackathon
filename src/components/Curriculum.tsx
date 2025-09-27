@@ -1,6 +1,6 @@
 "use client";
-
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import db from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useQuery } from "@tanstack/react-query";
@@ -33,7 +33,6 @@ export default function CourseTable() {
       try {
         const ref = doc(db, "users", user.userNo);
         const snap = await getDoc(ref);
-
         if (snap.exists()) {
           const data = snap.data();
           setCourses(data.courses || []);
@@ -49,7 +48,6 @@ export default function CourseTable() {
   }, [user]); // 依賴 user，變化時才執行
 
   const timetable: Record<string, string> = {};
-
   courses.forEach((course) => {
     const times = course.course_time.split("/");
     times.forEach((time) => {
@@ -63,8 +61,8 @@ export default function CourseTable() {
   if (userLoading || loading) return <p>讀取中...</p>;
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-gray-300 bg-white p-6">
-      <table className="w-full border-collapse border border-gray-400 text-center">
+    <div className="relative overflow-x-auto rounded-2xl border border-gray-300 bg-white p-6">
+      <table className="w-full table-fixed border-collapse border border-gray-400 text-center">
         <thead>
           <tr>
             <th className="border border-gray-400 p-2">節次</th>
@@ -91,6 +89,12 @@ export default function CourseTable() {
           ))}
         </tbody>
       </table>
+      <Link
+        href="/add"
+        className="absolute right-4 bottom-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500 text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-blue-600 hover:shadow-xl"
+      >
+        <span className="text-4xl font-light">+</span>
+      </Link>
     </div>
   );
 }
