@@ -3,10 +3,21 @@
 import { useState } from "react";
 import db from "@/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { useQuery } from "@tanstack/react-query";
 
 export default function CourseConfig() {
   const [input, setInput] = useState("");
   const [message, setMessage] = useState("");
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const res = await fetch("/api/user");
+      if (res.ok) {
+        return res.json();
+      }
+      return null;
+    },
+  });
 
   const handleSave = async () => {
     try {
@@ -24,8 +35,7 @@ export default function CourseConfig() {
       });
 
       // 存到 Firebase
-      const userId = "USER_ID_PLACEHOLDER";
-      const ref = doc(db, "users", userId);
+      const ref = doc(db, "users", user.userNo);
 
       await setDoc(ref, { courses: parsed }, { merge: true });
 

@@ -4,6 +4,7 @@ import Todos from "@/components/Todos";
 import Courses from "@/components/Courses";
 import WeatherCard from "@/components/Weather";
 import BusStopQuery from "@/components/Bus";
+import Curriculum from "@/components/Curriculum"
 
 // ====== 卡片佔位組件 ======
 interface StatsCardProps {
@@ -56,6 +57,9 @@ export default function Dashboard() {
         </div>
         <div className="md:col-span-3">
           <BusStopQuery />
+        </div>
+        <div className="md:col-span-3">
+          <Curriculum />
         </div>
       </div>
     </main>

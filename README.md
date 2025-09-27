@@ -51,6 +51,10 @@ API 命名原則上對照 tronclass 。
   {
     "course_name": "排球(初)",
     "course_time": "506/507"
+  },
+{
+    "course_name": "董董電神微積分課",
+    "course_time": "108/109/110"
   }
 ]
 ```
