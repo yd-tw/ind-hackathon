@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { FileX } from "lucide-react";
 
-export default function RollCallsPage() {
+export default function RollCalls() {
   const { data, error } = useQuery({
     queryKey: ["rollcalls"],
     queryFn: async () => {
@@ -17,15 +17,13 @@ export default function RollCallsPage() {
   });
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6">
-        <h1 className="mb-6 text-center text-2xl font-bold">點名系統</h1>
+    <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6">
+      <h1 className="mb-6 text-center text-2xl font-bold">點名系統</h1>
 
-        {/* 無資料狀態 */}
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 p-10">
-          <FileX className="mb-3 h-12 w-12 text-gray-400" />
-          <p className="text-gray-500">目前沒有任何點名</p>
-        </div>
+      {/* 無資料狀態 */}
+      <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 p-10">
+        <FileX className="mb-3 h-12 w-12 text-gray-400" />
+        <p className="text-gray-500">目前沒有任何點名</p>
       </div>
     </div>
   );

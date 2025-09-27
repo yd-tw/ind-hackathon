@@ -1,4 +1,7 @@
 import { ReactNode } from "react";
+import RollCalls from "@/components/RollCalls";
+import Todos from "@/components/Todos";
+import Courses from "@/components/Courses";
 
 // ====== 卡片佔位組件 ======
 interface StatsCardProps {
@@ -26,24 +29,6 @@ function ChartCard() {
   );
 }
 
-function TableCard() {
-  return (
-    <StatsCard title="表格卡片">
-      <div className="flex h-40 w-full items-center justify-center bg-gray-100 text-gray-400">
-        Table Placeholder
-      </div>
-    </StatsCard>
-  );
-}
-
-function InfoCard() {
-  return (
-    <StatsCard title="資訊卡片">
-      <p className="text-gray-600">一些資訊數據</p>
-    </StatsCard>
-  );
-}
-
 // ====== 儀表板首頁 ======
 export default function Dashboard() {
   return (
@@ -56,13 +41,13 @@ export default function Dashboard() {
       >
         {/* 你可以自由設定卡片的大小和位置 */}
         <div className="md:col-span-2">
-          <InfoCard />
+          <RollCalls />
         </div>
         <div className="md:col-span-4">
-          <ChartCard />
+          <Todos />
         </div>
         <div className="md:col-span-3">
-          <TableCard />
+          <Courses />
         </div>
         <div className="md:col-span-3">
           <ChartCard />

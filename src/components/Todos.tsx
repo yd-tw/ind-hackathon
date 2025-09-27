@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Clock, FileText, Calendar, CheckSquare } from "lucide-react";
 
-export default function TodosPage() {
+export default function Todos() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["todos"],
     queryFn: async () => {
@@ -17,39 +17,35 @@ export default function TodosPage() {
   const todos = data?.todo_list ?? [];
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-3xl rounded-xl border border-slate-200 bg-white p-6">
-        <h1 className="mb-6 text-center text-2xl font-bold">待辦事項</h1>
+    <div className="w-full max-w-3xl rounded-xl border border-slate-200 bg-white p-6">
+      <h1 className="mb-6 text-center text-2xl font-bold">待辦事項</h1>
 
-        {isLoading && (
-          <div className="text-center text-slate-500">載入中...</div>
-        )}
+      {isLoading && <div className="text-center text-slate-500">載入中...</div>}
 
-        {error && (
-          <div className="text-center text-rose-600">{String(error)}</div>
-        )}
+      {error && (
+        <div className="text-center text-rose-600">{String(error)}</div>
+      )}
 
-        {data && (
-          <section>
-            <header className="mb-6 flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-500">依課程與項目顯示</p>
-              </div>
-              <div className="text-sm text-slate-600">共 {todos.length} 項</div>
-            </header>
+      {data && (
+        <section>
+          <header className="mb-6 flex items-center justify-between">
+            <div>
+              <p className="text-sm text-slate-500">依課程與項目顯示</p>
+            </div>
+            <div className="text-sm text-slate-600">共 {todos.length} 項</div>
+          </header>
 
-            <ul className="space-y-4">
-              {todos.length > 0 ? (
-                todos.map((item: any) => <TodoCard key={item.id} item={item} />)
-              ) : (
-                <li className="rounded-md border border-dashed border-slate-200 p-6 text-center text-slate-500">
-                  尚無待辦項目
-                </li>
-              )}
-            </ul>
-          </section>
-        )}
-      </div>
+          <ul className="space-y-4">
+            {todos.length > 0 ? (
+              todos.map((item: any) => <TodoCard key={item.id} item={item} />)
+            ) : (
+              <li className="rounded-md border border-dashed border-slate-200 p-6 text-center text-slate-500">
+                尚無待辦項目
+              </li>
+            )}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
