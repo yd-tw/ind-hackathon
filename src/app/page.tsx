@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import RollCalls from "@/components/RollCalls";
 import Todos from "@/components/Todos";
 import Courses from "@/components/Courses";
+import WeatherCard from "@/components/Weather";
+import BusStopQuery from "@/components/Bus";
 
 // ====== 卡片佔位組件 ======
 interface StatsCardProps {
@@ -50,7 +52,10 @@ export default function Dashboard() {
           <Courses />
         </div>
         <div className="md:col-span-3">
-          <ChartCard />
+          <WeatherCard />
+        </div>
+        <div className="md:col-span-3">
+          <BusStopQuery />
         </div>
       </div>
     </main>
