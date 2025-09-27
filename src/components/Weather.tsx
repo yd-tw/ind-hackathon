@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Thermometer, ThermometerSun, CloudRain, Sun } from "lucide-react";
 
 interface WeatherData {
   temperature_2m: number;
   apparent_temperature: number;
   uv_index: number;
-  nextHourPrecip: number; // 未來一小時降雨機率
+  nextHourPrecip: number;
 }
 
 export default function WeatherCard() {
@@ -40,15 +41,27 @@ export default function WeatherCard() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-md rounded-2xl border border-gray-200 bg-white p-6">
+    <div className="mx-auto max-w-md rounded-2xl border border-gray-300 bg-white p-6">
       <h2 className="mb-4 text-xl font-bold text-gray-800">基隆天氣狀況</h2>
       {loading && <p className="text-gray-500">載入中...</p>}
       {weather && (
         <ul className="space-y-2 text-gray-700">
-          <li>🌡️ 溫度：{weather.temperature_2m} °C</li>
-          <li>🤔 體感溫度：{weather.apparent_temperature} °C</li>
-          <li>☔ 未來一小時降雨機率：{weather.nextHourPrecip} %</li>
-          <li>🔆 紫外線指數：{weather.uv_index}</li>
+          <li className="flex items-center gap-2">
+            <Thermometer className="h-5 w-5 text-red-500" />
+            溫度：{weather.temperature_2m} °C
+          </li>
+          <li className="flex items-center gap-2">
+            <ThermometerSun className="h-5 w-5 text-orange-500" />
+            體感溫度：{weather.apparent_temperature} °C
+          </li>
+          <li className="flex items-center gap-2">
+            <CloudRain className="h-5 w-5 text-blue-500" />
+            未來一小時降雨機率：{weather.nextHourPrecip} %
+          </li>
+          <li className="flex items-center gap-2">
+            <Sun className="h-5 w-5 text-yellow-500" />
+            紫外線指數：{weather.uv_index}
+          </li>
         </ul>
       )}
     </div>

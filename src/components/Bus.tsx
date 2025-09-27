@@ -32,7 +32,7 @@ const fetchBusData = async (): Promise<BusResponse> => {
 
 const BusCard = ({ stop }: { stop: BusStop }) => {
   return (
-    <div className="mb-4 rounded-lg border border-gray-400 p-4">
+    <div className="mb-4 w-full rounded-lg border border-gray-300 bg-white p-6">
       <h2 className="mb-2 text-lg font-semibold">{stop.name_cht}</h2>
       <div className="divide-y divide-gray-300">
         {stop.pathInfo.map((path, idx) => (
@@ -64,7 +64,7 @@ export default function BusStops() {
   if (error) return <div className="p-4 text-red-600">載入失敗</div>;
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
+    <div className="m-6 mx-auto flex flex-row gap-6">
       {data?.data.map((stop) => (
         <BusCard key={stop.StopLocationId} stop={stop} />
       ))}

@@ -15,14 +15,14 @@ export default function Courses() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-gray-600">
+      <div className="flex min-h-screen items-center justify-center border-gray-300 text-gray-600">
         載入中...
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-3xl">
+    <div className="w-full">
       <h1 className="mb-6 text-center text-2xl font-bold">課程列表</h1>
 
       <div className="space-y-4">
@@ -63,16 +63,6 @@ export default function Courses() {
                 {course.instructors.map((i: any) => i.name).join("、")}
               </span>
             </div>
-
-            {/* 連結 */}
-            <a
-              href={course.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-lg border border-gray-400 px-3 py-1 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              前往課程
-            </a>
           </div>
         ))}
       </div>

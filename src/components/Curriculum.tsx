@@ -63,7 +63,7 @@ export default function CourseTable() {
   if (userLoading || loading) return <p>讀取中...</p>;
 
   return (
-    <div className="overflow-x-auto bg-white p-6 rounded-2xl">
+    <div className="overflow-x-auto rounded-2xl border border-gray-300 bg-white p-6">
       <table className="w-full border-collapse border border-gray-400 text-center">
         <thead>
           <tr>
