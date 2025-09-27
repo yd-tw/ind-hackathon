@@ -102,8 +102,7 @@ function TodoCard({ item }: { item: any }) {
                 {item.type}
               </span>
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href="/todos"
                 className="rounded-md border border-slate-200 px-3 py-1 text-xs transition-colors hover:bg-slate-50"
                 aria-label={`檢視 ${item.title}`}
               >

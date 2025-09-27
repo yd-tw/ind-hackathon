@@ -58,7 +58,7 @@ export default function CourseConfig() {
   };
 
   return (
-    <div className="mx-auto max-w-xl p-4">
+    <div className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
       <h2 className="mb-2 text-lg font-bold">課表設定</h2>
       <textarea
         value={input}
